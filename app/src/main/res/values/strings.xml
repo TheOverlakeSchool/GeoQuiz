@@ -8,5 +8,6 @@
     <string name="warning_text">Are you SURE you want to do this?</string>
     <string name="show_answer_button">Show Answer</string>
     <string name="cheat_button">Cheat!</string>
+    <string name="no_cheat">Don\'t Cheat!</string>
     <string name="judgment_toast">Cheating is wrong.</string>
 </resources>

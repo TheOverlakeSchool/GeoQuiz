@@ -1,10 +1,8 @@
 package org.overlake.mat803.geoquiz;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -53,17 +57,22 @@ public class QuizActivity extends AppCompatActivity {
 
         updateQuestion();
 
+
         mTrueButton = findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
         mCheatButton = findViewById(R.id.cheat_button);
 
+
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                DialogFragment df = new ConfirmDialogFragment();
+                df.show(fm, "DIALOG");
                 // Start CheatActivity
-                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
-                Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
-                startActivityForResult(intent, REQUEST_CODE_CHEAT);
+//                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+//                Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+//                startActivityForResult(intent, REQUEST_CODE_CHEAT);
             }
         });
 
@@ -89,6 +98,19 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+    }
+
+    public static class ConfirmDialogFragment extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.warning_text)
+                    .setMessage(R.string.judgment_toast)
+                    .setPositiveButton(R.string.cheat_button, null)
+                    .setNegativeButton(R.string.no_cheat, null)
+                    .create();
+        }
     }
 
     @Override
