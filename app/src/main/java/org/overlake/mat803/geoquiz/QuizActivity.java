@@ -3,6 +3,7 @@ package org.overlake.mat803.geoquiz;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,6 +44,13 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        if(intent.getAction() == Intent.ACTION_SEND){
+            Bundle extras = getIntent().getExtras();
+            String text = extras.get(Intent.EXTRA_TEXT).toString();
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+        }
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
